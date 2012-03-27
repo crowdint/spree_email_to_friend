@@ -4,14 +4,12 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../dummy/config/environment", __FILE__)
 require 'rspec/rails'
 
-#include spree's factories
-require 'spree/core/testing_support/factories'
+# Requires supporting ruby files with custom matchers and macros, etc,
+# in spec/support/ and its subdirectories.
+Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each {|f| require f }
 
-# include local factories
-Dir["#{File.dirname(__FILE__)}/factories/**/*.rb"].each do |f|
-  fp =  File.expand_path(f)
-  require fp
-end
+# Requires factories defined in spree_core
+require 'spree/core/testing_support/factories'
 
 RSpec.configure do |config|
   # == Mock Framework
@@ -30,11 +28,3 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 end
-
-Spree::Zone.class_eval do
-  def self.global
-    find_by_name("GlobalZone") || Factory(:global_zone)
-  end
-end
-
-@configuration ||= Spree::AppConfiguration.find_or_create_by_name("Default configuration")

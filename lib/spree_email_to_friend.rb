@@ -1,2 +1,2 @@
 require 'spree_core'
-require 'spree_email_to_friend/engine'
+require 'spree/spree_email_to_friend/engine'
